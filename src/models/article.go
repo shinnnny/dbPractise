@@ -58,19 +58,14 @@ func Edit(id int, data interface{}) error {
 	if err := db.Model(&Article{}).Where("id = ? AND deleted_at = ? ", id, "NULL").Updates(data).Error; err != nil {
 		return err
 	}
-
 	return nil
 }
 
 // Delete delete a single article by id
 func Delete(id int) error {
-	//if err := db.Where("id = ?", id).Delete(Article{}).Error; err != nil {
-	//	return err
-	//}
 	if err := db.Delete(&Article{}, id).Error; err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -82,7 +77,6 @@ func Get(id int) (*Article, error) {
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-
 	return &article, nil
 }
 
@@ -94,7 +88,6 @@ func GetAll(pageNum int, pageSize int, maps interface{}) ([]Article, error) {
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-
 	return articles, nil
 }
 
@@ -103,6 +96,5 @@ func CleanAllArticle() error {
 	if err := db.Unscoped().Where("deleted_at != ? ", "NULL").Delete(&Article{}).Error; err != nil {
 		return err
 	}
-
 	return nil
 }
