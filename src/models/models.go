@@ -18,6 +18,7 @@ var db *gorm.DB
 func Setup() {
 	var err error
 
+	// driver: "gorm.io/driver/mysql"
 	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		setting.DatabaseSetting.User,
 		setting.DatabaseSetting.Password,
@@ -32,6 +33,8 @@ func Setup() {
 			return time.Now()
 		},
 	})
+
+	// driver "github.com/jinzhu/gorm/dialects/mysql"
 	//db, err = gorm.Open(mysql.New(mysql.Config{DSN: fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 	//	setting.DatabaseSetting.User,
 	//	setting.DatabaseSetting.Password,
