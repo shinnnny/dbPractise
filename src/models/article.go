@@ -1,18 +1,19 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import (
+	//"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+)
 
 type Article struct {
-	Model
+	gorm.Model
 
 	TagID int `json:"tag_id" gorm:"index"`
 
-	Title      string `json:"title"`
-	Desc       string `json:"desc"`
-	Content    string `json:"content"`
-	CreatedBy  string `json:"created_by"`
-	ModifiedBy string `json:"modified_by"`
-	State      int    `json:"state"`
+	Title   string `json:"title"`
+	Desc    string `json:"desc"`
+	Content string `json:"content"`
+	State   int    `json:"state"`
 }
 
 // Add adds a single article
@@ -36,7 +37,7 @@ func GetAll(pageNum int, pageSize int, maps interface{}) ([]*Article, error) {
 
 // CleanAllArticle clear all article
 func CleanAllArticle() error {
-	if err := db.Unscoped().Where("deleted_on != ? ", 0).Delete(&Article{}).Error; err != nil {
+	if err := db.Unscoped().Where("deleted_at != ? ", "NULL").Delete(&Article{}).Error; err != nil {
 		return err
 	}
 
