@@ -4,7 +4,6 @@ import (
 	"dbPractise/models"
 	"dbPractise/setting"
 	"dbPractise/util"
-	"log"
 )
 
 func main() {
@@ -12,14 +11,14 @@ func main() {
 	models.Setup()
 
 	// Add
-	//article := map[string]interface{}{
-	//	"tag_id":  1,
-	//	"title":   "test",
-	//	"desc":    "add for testing",
-	//	"content": "whatever",
-	//	"state":   1,
-	//}
-	//util.AddArticle(article)
+	article := map[string]interface{}{
+		"tag_id":  1,
+		"title":   "test",
+		"desc":    "add for testing",
+		"content": "whatever",
+		"state":   1,
+	}
+	util.AddArticle(article)
 
 	// Edit
 	//article:=map[string]interface{}{
@@ -35,6 +34,6 @@ func main() {
 	//log.Println("[GET]:\t",article.ID,"\t",article.CreatedAt)
 
 	// Get all
-	articles := util.GetArticles()
-	log.Println("[GET ALL]:\t", articles)
+	//articles := util.GetArticles()
+	//log.Println("[GET ALL]:\t", articles)
 }
