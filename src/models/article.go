@@ -18,14 +18,10 @@ type Article struct {
 
 func (a *Article) GetMaps() map[string]interface{} {
 	maps := make(map[string]interface{})
-	//maps["deleted_on"] = 0
 	maps["delete_at"] = "NULL"
 	if a.State != -1 {
 		maps["state"] = a.State
 	}
-	//if a.TagID != -1 {
-	//	maps["tag_id"] = a.TagID
-	//}
 
 	return maps
 }
@@ -33,7 +29,7 @@ func (a *Article) GetMaps() map[string]interface{} {
 // ExistArticleByID checks if an article exists based on ID
 func ExistArticleByID(id int) (bool, error) {
 	var article Article
-	err := db.Select("id").Where("id = ? AND deleted_at = ? ", id, "NULL").First(&article).Error
+	err := db.Select("id").Where("id = ?", id).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}
