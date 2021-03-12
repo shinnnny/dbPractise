@@ -40,7 +40,7 @@ func GetArticle(id int) *models.Article {
 	}
 }
 
-func GetArticles() []models.Article {
+func GetArticles() []*models.Article {
 	article := models.Article{
 		State: 1,
 	}

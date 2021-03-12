@@ -81,14 +81,19 @@ func Get(id int) (*Article, error) {
 }
 
 // GetAll gets a list of articles based on paging constraints
-func GetAll(pageNum int, pageSize int, maps interface{}) ([]Article, error) {
+func GetAll(pageNum int, pageSize int, maps interface{}) ([]*Article, error) {
 	var articles []Article
 	err := db.Find(&articles).Error
 	//err := db.Preload("Article").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
-	return articles, nil
+
+	temp := make([]*Article, len(articles))
+	for aIndex, a := range articles {
+		temp[aIndex] = &a
+	}
+	return temp, nil
 }
 
 // CleanAllArticle clear all article
