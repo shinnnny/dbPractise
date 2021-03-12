@@ -3,6 +3,7 @@ package main
 import (
 	"dbPractise/models"
 	"dbPractise/setting"
+	"dbPractise/util"
 	"log"
 )
 
@@ -27,29 +28,23 @@ func main() {
 	//util.EditArticle(20,article)
 
 	// Delete
-	//util.DeleteArticle(1)
+	//util.DeleteArticle(26)
 
 	// Get
 	//article:=util.GetArticle(20)
 	//log.Println("\t[GET]:\t",article.ID,"\t",article.CreatedAt)
 
-	// Get all
-	//articles := util.GetArticles()
+	//Get all
+	//articles := util.GetArticles(1)
 	//log.Println("\t[GET ALL]")
 	//for _, article := range articles {
 	//	log.Println("\t", article.ID, "\t", article.CreatedAt)
 	//}
 
 	// Clean
-	//err:=models.CleanAllArticle()
-	//if err != nil {
-	//	log.Println(err)
-	//}
+	//util.CleanArticles()
 
 	// Exist
-	exist, err := models.ExistArticleByID(20)
-	if err != nil {
-		log.Println(err)
-	}
+	exist := util.ExistArticleByID(25)
 	log.Println(exist)
 }

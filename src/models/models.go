@@ -15,10 +15,13 @@ import (
 )
 
 var db *gorm.DB
+var pageSize int
 
 // Setup initializes the database instance
 func Setup() {
 	var err error
+
+	pageSize = setting.DatabaseSetting.PageSize
 
 	// driver: "gorm.io/driver/mysql"
 	db, err = gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",

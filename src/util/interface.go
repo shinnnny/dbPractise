@@ -5,6 +5,11 @@ import (
 	"log"
 )
 
+func ExistArticleByID(id int) bool {
+	exist, _ := models.ExistArticleByID(id)
+	return exist
+}
+
 func AddArticle(data map[string]interface{}) {
 	article := models.Article{
 		TagID:   data["tag_id"].(int),
@@ -25,9 +30,11 @@ func EditArticle(id int, data map[string]interface{}) {
 	}
 }
 
-func DeleteArticle(id int) {
-	if err := models.Delete(id); err != nil {
-		log.Println(err.Error())
+func DeleteArticle(id ...int) {
+	for _, eachId := range id {
+		if err := models.Delete(eachId); err != nil {
+			log.Println(err.Error())
+		}
 	}
 }
 
@@ -40,14 +47,20 @@ func GetArticle(id int) *models.Article {
 	}
 }
 
-func GetArticles() []*models.Article {
+func GetArticles(pageNum int) []*models.Article {
 	article := models.Article{
 		State: 1,
 	}
-	if articles, err := models.GetAll(1, 10, article.GetMaps()); err != nil {
+	if articles, err := models.GetAll(pageNum, article.GetMaps()); err != nil {
 		log.Println(err.Error())
 		return nil
 	} else {
 		return articles
+	}
+}
+
+func CleanArticles() {
+	if err := models.CleanAllArticle(); err != nil {
+		log.Println(err.Error())
 	}
 }

@@ -1,7 +1,8 @@
 package models
 
 import (
-	//"github.com/jinzhu/gorm"
+	"log"
+
 	"gorm.io/gorm"
 )
 
@@ -18,7 +19,6 @@ type Article struct {
 
 func (a *Article) GetMaps() map[string]interface{} {
 	maps := make(map[string]interface{})
-	maps["delete_at"] = "NULL"
 	if a.State != -1 {
 		maps["state"] = a.State
 	}
@@ -76,10 +76,21 @@ func Get(id int) (*Article, error) {
 	return &article, nil
 }
 
+func getPage(pageNum int) int {
+	if pageNum > 0 {
+		result := (pageNum - 1) * pageSize
+		return result
+	} else {
+		log.Println("\t[Error]:\tPage Number error.")
+	}
+	return 0
+}
+
 // GetAll gets a list of articles based on paging constraints
-func GetAll(pageNum int, pageSize int, maps interface{}) ([]*Article, error) {
+func GetAll(pageNum int, maps interface{}) ([]*Article, error) {
 	var articles []Article
-	err := db.Find(&articles).Error
+	//err := db.Find(&articles).Error
+	err := db.Where(maps).Limit(pageSize).Offset(getPage(pageNum)).Find(&articles).Error
 	//err := db.Preload("Article").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
@@ -94,7 +105,7 @@ func GetAll(pageNum int, pageSize int, maps interface{}) ([]*Article, error) {
 
 // CleanAllArticle clear all article
 func CleanAllArticle() error {
-	if err := db.Unscoped().Where("deleted_at != ? ", "NULL").Delete(&Article{}).Error; err != nil {
+	if err := db.Unscoped().Where("deleted_at != ? ", "0000-00-01 00:00:01").Delete(&Article{}).Error; err != nil {
 		return err
 	}
 	return nil

@@ -12,6 +12,7 @@ type Database struct {
 	Host        string
 	Name        string
 	TablePrefix string
+	PageSize    int
 }
 
 var DatabaseSetting = &Database{}
