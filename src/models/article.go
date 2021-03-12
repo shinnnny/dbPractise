@@ -55,7 +55,7 @@ func Add(article Article) error {
 
 // Edit modify a single article
 func Edit(id int, data interface{}) error {
-	if err := db.Model(&Article{}).Where("id = ? AND deleted_at = ? ", id, "NULL").Updates(data).Error; err != nil {
+	if err := db.Model(&Article{}).Where("id = ?", id).Updates(data).Error; err != nil {
 		return err
 	}
 	return nil
