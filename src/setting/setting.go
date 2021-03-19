@@ -5,6 +5,14 @@ import (
 	"log"
 )
 
+type Log struct {
+	LogSavePath     string
+	LogSaveName     string
+	LogFileExt      string
+	RuntimeRootPath string
+	TimeFormat      string
+}
+
 type Database struct {
 	Type        string
 	User        string
@@ -15,6 +23,7 @@ type Database struct {
 	PageSize    int
 }
 
+var LogSetting = &Log{}
 var DatabaseSetting = &Database{}
 
 var cfg *ini.File
@@ -27,6 +36,7 @@ func Setup() {
 		log.Fatalf("setting.Setup, fail to parse 'config/app.ini': %v", err)
 	}
 
+	mapTo("log", LogSetting)
 	mapTo("database", DatabaseSetting)
 }
 

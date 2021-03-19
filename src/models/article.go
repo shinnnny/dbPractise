@@ -2,6 +2,7 @@ package models
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -11,10 +12,11 @@ type Article struct {
 
 	TagID int `json:"tag_id" gorm:"index"`
 
-	Title   string `json:"title"`
-	Desc    string `json:"desc"`
-	Content string `json:"content"`
-	State   int    `json:"state"`
+	Title   string    `json:"title"`
+	Desc    string    `json:"desc"`
+	Content string    `json:"content"`
+	State   int       `json:"state"`
+	AddTime time.Time `gorm:"autoCreateTime"`
 }
 
 func (a *Article) GetMaps() map[string]interface{} {
@@ -30,7 +32,7 @@ func (a *Article) GetMaps() map[string]interface{} {
 func ExistArticleByID(id int) (bool, error) {
 	var article Article
 	err := db.Select("id").Where("id = ?", id).First(&article).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil || err != gorm.ErrRecordNotFound {
 		return false, err
 	}
 
@@ -70,7 +72,7 @@ func Get(id int) (*Article, error) {
 	var article Article
 	//err := db.Where("id = ? AND deleted_at = ? ", id, "NULL").First(&article).Error
 	err := db.Where(id).First(&article).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil || err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
 	return &article, nil
@@ -92,7 +94,7 @@ func GetAll(pageNum int, maps interface{}) ([]*Article, error) {
 	//err := db.Find(&articles).Error
 	err := db.Where(maps).Limit(pageSize).Offset(getPage(pageNum)).Find(&articles).Error
 	//err := db.Preload("Article").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil || err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
 

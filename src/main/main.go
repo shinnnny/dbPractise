@@ -2,6 +2,7 @@ package main
 
 import (
 	"dbPractise/models"
+	"dbPractise/pkg/logging"
 	"dbPractise/setting"
 	"dbPractise/util"
 	"log"
@@ -10,6 +11,7 @@ import (
 func main() {
 	setting.Setup()
 	models.Setup()
+	logging.Setup()
 
 	// Add
 	//article := map[string]interface{}{
@@ -21,18 +23,20 @@ func main() {
 	//}
 	//util.AddArticle(article)
 
-	// Edit
-	//article:=map[string]interface{}{
-	//	"content": "modified by Edit",
+	//Edit
+	//for i:=1;i<30;i++{
+	//	article:=map[string]interface{}{
+	//		"content": "modified by Edit",
+	//	}
+	//	util.EditArticle(i,article)
 	//}
-	//util.EditArticle(20,article)
 
 	// Delete
 	//util.DeleteArticle(26)
 
-	// Get
-	//article:=util.GetArticle(20)
-	//log.Println("\t[GET]:\t",article.ID,"\t",article.CreatedAt)
+	//Get
+	article := util.GetArticle(4)
+	log.Println("\t[GET]:\t", article.ID, "\t", article.CreatedAt)
 
 	//Get all
 	//articles := util.GetArticles(1)
@@ -45,6 +49,6 @@ func main() {
 	//util.CleanArticles()
 
 	// Exist
-	exist := util.ExistArticleByID(25)
-	log.Println(exist)
+	//exist := util.ExistArticleByID(25)
+	//log.Println(exist)
 }
